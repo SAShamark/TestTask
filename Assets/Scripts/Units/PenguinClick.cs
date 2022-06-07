@@ -18,6 +18,5 @@ namespace Units
         {
             _tmpText.transform.position = _camera.WorldToScreenPoint(transform.position + _offSet);
         }
-
     }
 }

@@ -10,6 +10,7 @@ public class GameInit : MonoBehaviour
             PlayerPrefs.SetFloat("AllBananas", 0);
             PlayerPrefs.SetInt("ClickLevel", 1);
             PlayerPrefs.SetInt("PerSecondLevel", 1);
+            PlayerPrefs.SetInt("InterstitialAds", 1);
         }
     }
 }

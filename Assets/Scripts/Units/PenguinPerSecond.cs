@@ -17,7 +17,13 @@ namespace Units
         private List<GameObject> _tmpTexts;
         private GameManager _gameManager;
         private Camera _camera;
-        public int NumberBananasPerSecond => _numberBananasPerSecond;
+
+        public int NumberBananasPerSecond
+        {
+            get => _numberBananasPerSecond;
+            set => _numberBananasPerSecond = value;
+        }
+
 
         private void Start()
         {
@@ -31,8 +37,8 @@ namespace Units
         {
             while (true)
             {
-                _gameManager.ChangeNumberBananas(_numberBananasPerSecond);
-                StartCoroutine(PrintText(_numberBananasPerSecond));
+                _gameManager.ChangeNumberBananas(NumberBananasPerSecond);
+                StartCoroutine(PrintText(NumberBananasPerSecond));
                 yield return new WaitForSeconds(time);
             }
         }

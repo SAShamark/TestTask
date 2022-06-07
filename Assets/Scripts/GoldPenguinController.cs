@@ -1,5 +1,6 @@
 using System.Collections;
 using TMPro;
+using Units;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -12,6 +13,7 @@ public class GoldPenguinController : MonoBehaviour
     [SerializeField] private Button _perSecondUpdateButton;
 
     [SerializeField] private GameObject _goldPenguin;
+    [SerializeField] private GameObject _doubling;
     [SerializeField] private TMP_Text _workTimeText;
     private readonly float[] _xPosition = {-3.5f, 3.5f};
     private bool _canDumpling = true;
@@ -25,6 +27,7 @@ public class GoldPenguinController : MonoBehaviour
         _goldPenguin = Instantiate(_goldPenguin);
         GoldPenguin.OnClick += ClickOnGoldPenguin;
         _goldPenguin.SetActive(false);
+        _doubling.SetActive(false);
         StartCoroutine(Spawner());
     }
 
@@ -40,8 +43,15 @@ public class GoldPenguinController : MonoBehaviour
 
     private IEnumerator Dumpling()
     {
+        _doubling.SetActive(true);
+
         _gameManager.BananasPerSecond *= _doublingBananas;
         _gameManager.BananasPerClick *= _doublingBananas;
+        for (int i = 0; i < _gameManager.PenguinPerSecondObjects.Count; i++)
+        {
+            _gameManager.PenguinPerSecondObjects[i].GetComponent<PenguinPerSecond>().NumberBananasPerSecond *= 2;
+        }
+
         _clickUpdateButton.interactable = false;
         _perSecondUpdateButton.interactable = false;
         var startWorkTime = _workTimeDoubling;
@@ -57,7 +67,7 @@ public class GoldPenguinController : MonoBehaviour
                 _clickUpdateButton.interactable = true;
                 _perSecondUpdateButton.interactable = true;
                 _workTimeDoubling = startWorkTime;
-                _workTimeText.text = "";
+                _doubling.SetActive(false);
                 break;
             }
 
@@ -71,7 +81,7 @@ public class GoldPenguinController : MonoBehaviour
     {
         while (true)
         {
-            _timeToSpawn = Random.Range(2, 5);
+            _timeToSpawn = Random.Range(30, 120);
             yield return new WaitForSeconds(_timeToSpawn);
             _goldPenguin.transform.position = new Vector3(_xPosition[Random.Range(0, 2)], Random.Range(3.6f, -2.1f), 0);
             _goldPenguin.SetActive(true);
