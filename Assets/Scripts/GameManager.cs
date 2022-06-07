@@ -26,6 +26,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _penguinPerSecondObject;
     [SerializeField] private Transform _transformForSpawn;
     private List<GameObject> _penguinPerSecondObjects;
+    private List<GameObject> _penguinPerClickObjects;
+
     public InterstitialAds _interstitialAds;
     private Vector3 _penguinSpawnPosition;
 
@@ -43,13 +45,16 @@ public class GameManager : MonoBehaviour
             _allBananas = PlayerPrefs.GetFloat("AllBananas");
             ClickUpdateLevel = PlayerPrefs.GetInt("ClickLevel");
             PerSecondLevel = PlayerPrefs.GetInt("PerSecondLevel");
-            _penguinPerSecondObjects = new List<GameObject>();
+            _penguinPerClickObjects = new List<GameObject>();
+
             for (int i = 1; i < ClickUpdateLevel; i++)
             {
-                _penguinPerSecondObjects.Add(SpawnPenguin(_penguinClickObject));
+                _penguinPerClickObjects.Add(SpawnPenguin(_penguinClickObject));
                 BananasPerClick *= ValueForChangeClickFarm;
                 PriceForClickUpdate *= ValueForChangeClickPrice;
             }
+
+            _penguinPerSecondObjects = new List<GameObject>();
 
             for (int i = 1; i < PerSecondLevel; i++)
             {
