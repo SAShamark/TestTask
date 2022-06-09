@@ -1582,7 +1582,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 188.95, y: -84.599976}
+  m_AnchoredPosition: {x: 188.94995, y: -84.59985}
   m_SizeDelta: {x: 377.9, y: 169.19995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &365891014
@@ -2022,6 +2022,18 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 1
         m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: Data.SaveData, Assembly-CSharp
+        m_MethodName: Save
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
 --- !u!114 &508636203
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2248,7 +2260,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -41.4, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &534223164
@@ -3037,7 +3049,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.712, y: 0.270625}
   m_AnchorMax: {x: 0.9046668, y: 0.37800002}
-  m_AnchoredPosition: {x: -0.9831238, y: 13.44874}
+  m_AnchoredPosition: {x: -0.9831238, y: 13.448776}
   m_SizeDelta: {x: 144.488, y: 189.42252}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &693324873
@@ -4344,6 +4356,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f90491facea8db64ba5f51f461a276c6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interstitialAds: {fileID: 1235140141}
   _clickOnPlayer: {fileID: 1931249418}
   _buttonUpdateClick: {fileID: 590100192}
   _buttonUpdatePerSecond: {fileID: 48198047}
@@ -4353,7 +4366,6 @@ MonoBehaviour:
   _penguinClickObject: {fileID: 1133055372851563551, guid: 52e6debb6af9d59458eef7c6cce75f24, type: 3}
   _penguinPerSecondObject: {fileID: 1133055372851563551, guid: 01540241d34555d45807bf6b55e069b2, type: 3}
   _transformForSpawn: {fileID: 308312443}
-  _interstitialAds: {fileID: 1235140141}
 --- !u!4 &1484807757
 Transform:
   m_ObjectHideFlags: 0
@@ -4888,7 +4900,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.30930397, y: 0.21100001}
   m_AnchorMax: {x: 0.9235441, y: 0.86327267}
-  m_AnchoredPosition: {x: -0.037002563, y: 0.13000107}
+  m_AnchoredPosition: {x: -0.037002563, y: 0.13000488}
   m_SizeDelta: {x: -0.33999634, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1853101005

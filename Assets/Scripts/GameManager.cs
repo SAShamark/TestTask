@@ -1,20 +1,21 @@
 using System.Collections.Generic;
 using Ads;
 using Clicks;
+using Data;
 using TMPro;
 using Units;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    public List<GameObject> PenguinPerSecondObjects => _penguinPerSecondObjects;
+    public InterstitialAds _interstitialAds;
+    private MainData _mainData;
+    public List<GameObject> PenguinPerSecondObjects { get; private set; }
+
     public float BananasPerClick { get; set; } = 10;
     public float BananasPerSecond { get; set; }
     private int PriceForClickUpdate { get; set; } = 100;
-    private int ClickUpdateLevel { get; set; } = 1;
     private int PriceForPerSecond { get; set; } = 100;
-    private int PerSecondLevel { get; set; } = 1;
-
 
     [SerializeField] private ClickOnPlayer _clickOnPlayer;
     [SerializeField] private ButtonClickUpdate _buttonUpdateClick;
@@ -25,13 +26,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject _penguinClickObject;
     [SerializeField] private GameObject _penguinPerSecondObject;
     [SerializeField] private Transform _transformForSpawn;
-    private List<GameObject> _penguinPerSecondObjects;
     private List<GameObject> _penguinPerClickObjects;
-
-    public InterstitialAds _interstitialAds;
     private Vector3 _penguinSpawnPosition;
-
-    private float _allBananas;
     private int _numberClickPerSecond;
     private float _timeForBananasPerSecond;
     private const int ValueForChangeClickPrice = 2;
@@ -40,32 +36,32 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
+        _mainData = new MainData();
         if (PlayerPrefs.HasKey("FirstStart"))
         {
-            _allBananas = PlayerPrefs.GetFloat("AllBananas");
-            ClickUpdateLevel = PlayerPrefs.GetInt("ClickLevel");
-            PerSecondLevel = PlayerPrefs.GetInt("PerSecondLevel");
-            _penguinPerClickObjects = new List<GameObject>();
+            _mainData.AllBananas = PlayerPrefs.GetFloat("AllBananas");
+            _mainData.ClickUpdateLevel = PlayerPrefs.GetInt("ClickLevel");
+            _mainData.PerSecondLevel = PlayerPrefs.GetInt("PerSecondLevel");
 
-            for (int i = 1; i < ClickUpdateLevel; i++)
+            _penguinPerClickObjects = new List<GameObject>();
+            for (int i = 1; i < _mainData.ClickUpdateLevel; i++)
             {
                 _penguinPerClickObjects.Add(SpawnPenguin(_penguinClickObject));
                 BananasPerClick *= ValueForChangeClickFarm;
                 PriceForClickUpdate *= ValueForChangeClickPrice;
             }
 
-            _penguinPerSecondObjects = new List<GameObject>();
-
-            for (int i = 1; i < PerSecondLevel; i++)
+            PenguinPerSecondObjects = new List<GameObject>();
+            for (int i = 1; i < _mainData.PerSecondLevel; i++)
             {
-                _penguinPerSecondObjects.Add(SpawnPenguin(_penguinPerSecondObject));
-                BananasPerSecond += _penguinPerSecondObjects[i - 1].GetComponent<PenguinPerSecond>()
+                PenguinPerSecondObjects.Add(SpawnPenguin(_penguinPerSecondObject));
+                BananasPerSecond += PenguinPerSecondObjects[i - 1].GetComponent<PenguinPerSecond>()
                     .NumberBananasPerSecond;
                 PriceForPerSecond *= ValueForChangePerSecondPrice;
             }
         }
 
-        _bananasNumberText.text = _allBananas.ToString();
+        _bananasNumberText.text = _mainData.AllBananas.ToString();
         _clickOnPlayer.Initialize();
         _clickOnPlayer.OnClick += ClickOnPlayZone;
         _buttonUpdateClick.Initialize();
@@ -85,25 +81,25 @@ public class GameManager : MonoBehaviour
 
     private void SetClickUpdateInfo()
     {
-        _buttonUpdateClick.Level.text = ClickUpdateLevel.ToString();
+        _buttonUpdateClick.Level.text = _mainData.ClickUpdateLevel.ToString();
         _buttonUpdateClick.Price.text = PriceForClickUpdate.ToString();
         _buttonUpdateClick.Number.text = BananasPerClick + " Per click";
     }
 
     private void SetPerSecondUpdateInfo()
     {
-        _buttonUpdatePerSecond.Level.text = PerSecondLevel.ToString();
+        _buttonUpdatePerSecond.Level.text = _mainData.PerSecondLevel.ToString();
         _buttonUpdatePerSecond.Price.text = PriceForPerSecond.ToString();
         _buttonUpdatePerSecond.Number.text = BananasPerSecond + " Per second";
     }
 
     public void ChangeNumberBananas(float valueToAddBananas)
     {
-        _allBananas += valueToAddBananas;
-        _bananasNumberText.text = Mathf.Round(_allBananas).ToString();
+        _mainData.AllBananas += valueToAddBananas;
+        _bananasNumberText.text = Mathf.Round(_mainData.AllBananas).ToString();
         for (int i = 1, countBananas = 10; i < 10; i++, countBananas *= 10)
         {
-            if (_allBananas >= countBananas && i > PlayerPrefs.GetInt("InterstitialAds"))
+            if (_mainData.AllBananas >= countBananas && i > PlayerPrefs.GetInt("InterstitialAds"))
             {
                 _interstitialAds.ShowAd();
                 PlayerPrefs.SetInt("InterstitialAds", i);
@@ -120,12 +116,12 @@ public class GameManager : MonoBehaviour
 
     private void ChangeNumberBananasPerClick()
     {
-        if (_allBananas >= PriceForClickUpdate)
+        if (_mainData.AllBananas >= PriceForClickUpdate)
         {
-            _allBananas -= PriceForClickUpdate;
+            _mainData.AllBananas -= PriceForClickUpdate;
             BananasPerClick *= ValueForChangeClickFarm;
             PriceForClickUpdate *= ValueForChangeClickPrice;
-            ClickUpdateLevel++;
+            _mainData.ClickUpdateLevel++;
             SpawnPenguin(_penguinClickObject);
         }
     }
@@ -133,13 +129,13 @@ public class GameManager : MonoBehaviour
 
     private void ChangeNumberBananasPerSecond()
     {
-        if (_allBananas >= PriceForPerSecond)
+        if (_mainData.AllBananas >= PriceForPerSecond)
         {
-            _allBananas -= PriceForPerSecond;
+            _mainData.AllBananas -= PriceForPerSecond;
             PriceForPerSecond *= ValueForChangePerSecondPrice;
-            PerSecondLevel++;
-            _penguinPerSecondObjects.Add(SpawnPenguin(_penguinPerSecondObject));
-            BananasPerSecond += _penguinPerSecondObjects[_penguinPerSecondObjects.Count - 1]
+            _mainData.PerSecondLevel++;
+            PenguinPerSecondObjects.Add(SpawnPenguin(_penguinPerSecondObject));
+            BananasPerSecond += PenguinPerSecondObjects[PenguinPerSecondObjects.Count - 1]
                 .GetComponent<PenguinPerSecond>().NumberBananasPerSecond;
         }
     }
@@ -163,7 +159,7 @@ public class GameManager : MonoBehaviour
         if (_timeForBananasPerSecond <= 1)
         {
             var bananasPerSecond = BananasPerSecond + (BananasPerClick * _numberClickPerSecond);
-            _bananasPerSecondText.text = bananasPerSecond + "/sec";
+            _bananasPerSecondText.text = Mathf.Round(bananasPerSecond) + "/sec";
         }
         else
         {
@@ -176,9 +172,9 @@ public class GameManager : MonoBehaviour
     public void OnPauseAndSave()
     {
         Time.timeScale = 0;
-        PlayerPrefs.SetFloat("AllBananas", _allBananas);
-        PlayerPrefs.SetInt("ClickLevel", ClickUpdateLevel);
-        PlayerPrefs.SetInt("PerSecondLevel", PerSecondLevel);
+        PlayerPrefs.SetFloat("AllBananas", _mainData.AllBananas);
+        PlayerPrefs.SetInt("ClickLevel", _mainData.ClickUpdateLevel);
+        PlayerPrefs.SetInt("PerSecondLevel", _mainData.PerSecondLevel);
     }
 
     public void OffPause()

@@ -51,22 +51,20 @@ namespace Units
         public IEnumerator PrintText(float value)
         {
             var text = GetText();
-            if (text != null)
-            {
-                text.SetActive(true);
-                text.transform.position = _camera.WorldToScreenPoint(transform.position + _offSet);
-                text.GetComponent<TMP_Text>().text = "+" + Mathf.Round(value);
-                var rectText = text.GetComponent<RectTransform>();
-                var startPosition = rectText.anchoredPosition.y;
-                while (rectText.anchoredPosition.y < startPosition + 150)
-                {
-                    rectText.anchoredPosition =
-                        new Vector2(rectText.anchoredPosition.x, rectText.anchoredPosition.y + _speedUp);
-                    yield return new WaitForEndOfFrame();
-                }
 
-                text.SetActive(false);
+            text.SetActive(true);
+            text.transform.position = _camera.WorldToScreenPoint(transform.position + _offSet);
+            text.GetComponent<TMP_Text>().text = "+" + Mathf.Round(value);
+            var rectText = text.GetComponent<RectTransform>();
+            var startPositionY = rectText.anchoredPosition.y;
+            while (rectText.anchoredPosition.y < startPositionY + 150)
+            {
+                rectText.anchoredPosition =
+                    new Vector2(rectText.anchoredPosition.x, rectText.anchoredPosition.y + _speedUp);
+                yield return new WaitForEndOfFrame();
             }
+
+            text.SetActive(false);
         }
     }
 }
