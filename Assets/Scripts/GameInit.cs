@@ -4,12 +4,8 @@ public class GameInit : MonoBehaviour
 {
     private void Awake()
     {
-        if (!PlayerPrefs.HasKey("FirstStart"))
+        if (!PlayerPrefs.HasKey("InterstitialAds"))
         {
-            PlayerPrefs.SetInt("FirstStart", 1);
-            PlayerPrefs.SetFloat("AllBananas", 0);
-            PlayerPrefs.SetInt("ClickLevel", 1);
-            PlayerPrefs.SetInt("PerSecondLevel", 1);
             PlayerPrefs.SetInt("InterstitialAds", 1);
         }
     }

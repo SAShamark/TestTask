@@ -1,30 +1,29 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-namespace Units
+namespace Units.UI
 {
-    public class HorseController : MonoBehaviour
+    public class TextController : MonoBehaviour
     {
         [SerializeField] private Vector3 _offSet;
         [SerializeField] private GameObject _tmpText;
         [SerializeField] private Transform _spawnPointForText;
-        [SerializeField] private float _speedUp;
-        [SerializeField] private int _amountToPool;
+        [SerializeField] private float _speedForTextUp;
+        [SerializeField] private float _plusToYPosition;
+        [SerializeField] private int _amountTextToPool;
         private List<GameObject> _tmpTexts;
-        private Camera _camera;
 
         private void Start()
         {
-            _camera = Camera.main;
             CreatingTexts();
         }
 
-        private void CreatingTexts()
+        protected void CreatingTexts()
         {
             _tmpTexts = new List<GameObject>();
-            for (int i = 0; i < _amountToPool; i++)
+            for (int i = 0; i < _amountTextToPool; i++)
             {
                 GameObject text = Instantiate(_tmpText, _spawnPointForText);
                 text.SetActive(false);
@@ -48,19 +47,20 @@ namespace Units
             return tmpText;
         }
 
-        public IEnumerator PrintText(float value)
+        protected IEnumerator PrintText(float value, Camera camera)
         {
             var text = GetText();
-
             text.SetActive(true);
-            text.transform.position = _camera.WorldToScreenPoint(transform.position + _offSet);
-            text.GetComponent<TMP_Text>().text = "+" + Mathf.Round(value);
+            text.transform.position = camera.WorldToScreenPoint(transform.position + _offSet);
+            var tmpText = text.GetComponent<TMP_Text>();
+
+            tmpText.text = "+" + Mathf.Round(value);
             var rectText = text.GetComponent<RectTransform>();
             var startPositionY = rectText.anchoredPosition.y;
-            while (rectText.anchoredPosition.y < startPositionY + 150)
+            while (rectText.anchoredPosition.y < startPositionY + _plusToYPosition)
             {
                 rectText.anchoredPosition =
-                    new Vector2(rectText.anchoredPosition.x, rectText.anchoredPosition.y + _speedUp);
+                    new Vector2(rectText.anchoredPosition.x, rectText.anchoredPosition.y + _speedForTextUp);
                 yield return new WaitForEndOfFrame();
             }
 

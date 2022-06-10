@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Clicks
+namespace UI.Clicks
 {
     public class ButtonClickUpdate : MonoBehaviour
     {
