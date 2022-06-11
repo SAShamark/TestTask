@@ -121,7 +121,7 @@ public class GameMechanicsManager : MonoBehaviour
         if (Mathf.Round(_mainData.AllBananas) >= PriceForClickUpdate)
         {
             _mainData.AllBananas -= PriceForClickUpdate;
-            _bananasNumberText.text = _mainData.AllBananas.ToString();
+            _bananasNumberText.text = Mathf.Round(_mainData.AllBananas).ToString();
             BananasPerClick *= ValueForChangeClickFarm;
             PriceForClickUpdate *= ValueForChangeClickPrice;
             _mainData.ClickUpdateLevel++;
@@ -135,7 +135,7 @@ public class GameMechanicsManager : MonoBehaviour
         if (Mathf.Round(_mainData.AllBananas) >= PriceForPerSecond)
         {
             _mainData.AllBananas -= PriceForPerSecond;
-            _bananasNumberText.text = _mainData.AllBananas.ToString();
+            _bananasNumberText.text = Mathf.Round(_mainData.AllBananas).ToString();
             PriceForPerSecond *= ValueForChangePerSecondPrice;
             _mainData.PerSecondLevel++;
             PenguinPerSecondObjects.Add(SpawnPenguin(_penguinPerSecondObject));
