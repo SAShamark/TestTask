@@ -22,7 +22,7 @@ namespace Units
 
         private void Start()
         {
-            _gameMechanicsManager = FindObjectOfType<GameMechanicsManager>();
+            _gameMechanicsManager = GameMechanicsManager.SingletonGameMechanicsManager;
             _camera = Camera.main;
             CreatingTexts();
             StartCoroutine(AddBananas(_timeToGetBananas));

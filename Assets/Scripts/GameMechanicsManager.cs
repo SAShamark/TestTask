@@ -8,6 +8,7 @@ using UnityEngine;
 
 public class GameMechanicsManager : MonoBehaviour
 {
+    public static GameMechanicsManager SingletonGameMechanicsManager;
     public MainData _mainData;
     public List<GameObject> PenguinPerSecondObjects { get; private set; }
 
@@ -32,6 +33,17 @@ public class GameMechanicsManager : MonoBehaviour
     private const int ValueForChangeClickPrice = 2;
     private const float ValueForChangeClickFarm = 1.1f;
     private const int ValueForChangePerSecondPrice = 2;
+
+    private void Awake()
+    {
+        if (SingletonGameMechanicsManager==null)
+        {
+            SingletonGameMechanicsManager = this;
+            DontDestroyOnLoad(gameObject);
+            return;
+        }
+        Destroy(gameObject);
+    }
 
     private void Start()
     {

@@ -6,7 +6,7 @@ namespace Data
 {
     public class SaveData : MonoBehaviour
     {
-        [SerializeField] private GameMechanicsManager _gameMechanicsManager;
+        private GameMechanicsManager _gameMechanicsManager;
         private MainData _mainData;
         private string _savePath;
 
@@ -19,6 +19,8 @@ namespace Data
 #else
             _savePath = Path.Combine(Application.dataPath, "Save.json");
 #endif
+            _gameMechanicsManager = GameMechanicsManager.SingletonGameMechanicsManager;
+            print(_gameMechanicsManager);
         }
 
         private void Start()

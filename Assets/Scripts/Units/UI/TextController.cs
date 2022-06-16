@@ -63,7 +63,6 @@ namespace Units.UI
                     new Vector2(rectText.anchoredPosition.x, rectText.anchoredPosition.y + _speedForTextUp);
                 yield return new WaitForEndOfFrame();
             }
-
             text.SetActive(false);
         }
     }

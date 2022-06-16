@@ -8,11 +8,10 @@ using Random = UnityEngine.Random;
 
 public class GoldPenguinController : MonoBehaviour
 {
-    [SerializeField] private GameMechanicsManager _gameMechanicsManager;
+    private GameMechanicsManager _gameMechanicsManager;
 
     [SerializeField] private Button _clickUpdateButton;
     [SerializeField] private Button _perSecondUpdateButton;
-
     [SerializeField] private GameObject _goldPenguin;
     [SerializeField] private GameObject _doubling;
     [SerializeField] private TMP_Text _workTimeText;
@@ -25,6 +24,7 @@ public class GoldPenguinController : MonoBehaviour
 
     private void Start()
     {
+        _gameMechanicsManager = GameMechanicsManager.SingletonGameMechanicsManager;
         _goldPenguin = Instantiate(_goldPenguin);
         GoldPenguin.OnClick += ClickOnGoldPenguin;
         _goldPenguin.SetActive(false);
@@ -68,6 +68,7 @@ public class GoldPenguinController : MonoBehaviour
                 {
                     penguinPerSecondObject.GetComponent<PenguinPerSecond>().NumberBananasPerSecond /= 2;
                 }
+
                 _clickUpdateButton.interactable = true;
                 _perSecondUpdateButton.interactable = true;
                 _workTimeDoubling = startWorkTime;
@@ -107,10 +108,10 @@ public class GoldPenguinController : MonoBehaviour
         var sequence = DOTween.Sequence();
         var startPosition = _goldPenguin.transform.position;
         var endPosition = new Vector3(endPositionX, startPosition.y, startPosition.z);
-        
+
         sequence.Append(_goldPenguin.transform.DOMove(endPosition, Speed));
         sequence.AppendInterval(2f);
-        
+
         sequence.Append(_goldPenguin.transform.DOMove(startPosition, Speed));
         sequence.OnComplete(Closed);
     }
